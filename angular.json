@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-fiap",
+            "outputPath": "dist/AngularFinanceFiap/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -104,6 +104,65 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/AngularFinanceFiap/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.prod.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ],
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "AngularFinanceFiap:build:development",
+              "serverTarget": "AngularFinanceFiap:server:development"
+            },
+            "production": {
+              "browserTarget": "AngularFinanceFiap:build:production",
+              "serverTarget": "AngularFinanceFiap:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "AngularFinanceFiap:build:production",
+              "serverTarget": "AngularFinanceFiap:server:production"
+            },
+            "development": {
+              "browserTarget": "AngularFinanceFiap:build:development",
+              "serverTarget": "AngularFinanceFiap:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
